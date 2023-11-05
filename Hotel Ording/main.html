@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="searchBar">
+        <form id="myForm">
+            <div id="insidesearchBar">
+                <input type="number" name="productPrice" id="price" class="inputTag" placeholder="Product price">
+                <input type="text" name="productName" id="name" class="inputTag" placeholder="Product Name">
+                <button>Add Product</button>
+            </div>
+        </form>
+    </div>
+    <div id="addDetails">
+        <h1>Products:</h1>
+        <ul id="productDetails"></ul>
+    </div>
+    <div id="totalProducts">
+        <h5>Total value of Products:  </h5>
+        <p id="productTotal"></p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.min.js"></script>
+    <script>
+       
+
+        document.getElementById('myForm').onsubmit = function () { orderFood() };
+        function orderFood() {
+            event.preventDefault();
+            const price = event.target.productPrice.value;
+            const productname = event.target.productName.value;
+
+            const object = {
+                price,
+                productname,
+            };
+
+            axios.post('https://crudcrud.com/api/932bea05ef954b18b9afe7e99d028904/products', object)
+                .then((res) => { displayOnScreen(res.data); })
+                .catch(error => { console.log(error); });
+
+        }
+
+        function displayOnScreen(product) {
+            const parentElement = document.getElementById("productDetails");
+            childElement = document.createElement("li");
+            childElement.textContent = product.price + " - " + product.productname;
+
+            deletebutton = document.createElement('input');
+            deletebutton.type = 'button';
+            deletebutton.value = 'Delete';
+            deletebutton.onclick = () => {
+                axios
+                    .delete(`https://crudcrud.com/api/932bea05ef954b18b9afe7e99d028904/products/${product._id}`, {
+
+                    })
+                    .then((res) => { location.reload() })
+                    .catch((error) => { console.error("product details cannot be deleted: " + error) })
+            }
+            parentElement.appendChild(childElement);
+            parentElement.appendChild(deletebutton);
+        }
+
+       
+
+        
+        window.addEventListener("DOMContentLoaded", () => {
+            var totalAmount = 0;
+            axios
+                .get("https://crudcrud.com/api/932bea05ef954b18b9afe7e99d028904/products")
+                .then((res) => {
+                    for (i = 0; i < res.data.length; i++) {
+                        displayOnScreen(res.data[i]);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                    document.body.innerHTML =
+                        document.body.innerHTML +
+                        "<h1>Error -- Get request cancelled/Api expired</h1>";
+                });
+
+    
+
+                axios
+                .get(`https://crudcrud.com/api/932bea05ef954b18b9afe7e99d028904/products`)
+                    .then((res) => {
+                        for (i = 0; i < res.data.length; i++) {
+                           proPrice = parseInt(res.data[i].price)
+                           totalAmount = totalAmount + proPrice
+                           //console.log(res.data[i].price)
+                           document.getElementById("productTotal").innerHTML = totalAmount ;
+                           console.log(totalAmount)
+                        }
+                    })
+                    
+                    
+        });
+
+        
+
+
+
+    </script>
+</body>
+
+</html>

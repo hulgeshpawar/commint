@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+body {
+    background-color: whitesmoke;
+}
+
+#searchBar {
+    background-color: black;
+    color: white;
+    height: 90px;
+    align-items: center;
+    text-align: center;
+    border-radius: 12px;
+}
+
+#insidesearchBar {
+    padding-top: 30px;
+}
+
+.inputTag {
+    padding: 6px 12px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    appearance: none;
+    border-radius: 4px;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+
+    :focus {
+        color: #212529;
+        background-color: #fff;
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
+    }
+
+}
+
+button {
+
+    cursor: pointer;
+    outline: 0;
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    border: 1px solid transparent;
+    padding: 6px 12px;
+    font-size: 16px;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+
+    :hover {
+        color: #fff;
+        background-color: #0b5ed7;
+        border-color: #0a58ca;
+    }
+
+}
+
+#addDetails {
+    font-family: 'Ubuntu', sans-serif;
+    background-color: black;
+    color: white;
+    height: 500px;
+    border-radius: 12px;
+}
+
+h1 {
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+#totalProducts {
+    background-color: grey;
+    color: white;
+    height: 80px;
+    border-radius: 12px;
+    font-family: 'Roboto Mono', monospace;
+}
+
+h5 {
+    padding-left: 10px;
+    padding-top: 10px;
+    font-size: medium;
+}
