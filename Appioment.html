@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>appioment</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+        integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+</head>
+
+<body>
+    <form onsubmit="saveToCrudCrud(event)">
+        <label>Frist Name</label><br>
+        <input type="text" name="firstName" id="userName" required /><br><br>
+        <label>Email</label><br>
+        <input type="email" name="emailId" id="userEmail" required /><br><br>
+        <label>Moblie</label><br>
+        <input type=" tel" name="moblieNo" id="userDigitno"><br><br>
+        <button>Submit</button>
+
+        <ul id="details"></ul>
+    </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.min.js"></script>
+    <script>
+        function saveToCrudCrud(event) {
+            event.preventDefault();
+            const name = event.target.firstName.value;
+            const email = event.target.emailId.value;
+            const digitno = event.target.moblieNo.value;
+
+            const Obj = {
+                name,
+                email,
+                digitno
+            };
+            //console.log(Obj)
+            axios.post("https://crudcrud.com/api/7001f068bd0c4b4db1b59a2d2e85231f/appi", Obj)
+                .then((res) => { showItemOnScreen(res.data); })
+                .catch(error => { console.log(error); });
+            location.reload()
+        }
+
+        function displayOnScreen(object) {
+            const parentElement = document.getElementById("details");
+            childElement = document.createElement("li");
+            childElement.textContent = object.name + " - " + object.email + " - " + object.digitno;
+
+            deletebutton = document.createElement('input');
+            deletebutton.type = 'button';
+            deletebutton.value = 'Delete';
+            deletebutton.onclick = () => {
+                axios
+                    .delete(`https://crudcrud.com/api/7001f068bd0c4b4db1b59a2d2e85231f/appi/${object._id}`, {
+
+                    })
+                    .then((res) => {
+                        location.reload()
+                    })
+                    .catch((error) => {
+                        console.error('Data Cannot be Deleted' + error)
+                    })
+
+
+
+            }
+
+            editbutton = document.createElement('input');
+            editbutton.type = 'button';
+            editbutton.value = 'Edit';
+            editbutton.onclick = () => {
+                axios
+                    .get(`https://crudcrud.com/api/7001f068bd0c4b4db1b59a2d2e85231f/appi/${object._id}`)
+
+
+                    .then((res) => {
+                        axios.delete(`https://crudcrud.com/api/7001f068bd0c4b4db1b59a2d2e85231f/appi/${object._id}`, {
+
+                        })
+                            .then((res) => {
+
+                            })
+                            .catch((error) => {
+                                console.error('Data Cannot be Deleted' + error)
+                            })
+
+                    })
+                document.getElementById('userName').value = object.name;
+                document.getElementById('userEmail').value = object.email;
+                document.getElementById('userDigitno').value = object.digitno;
+
+            }
+
+
+
+
+            parentElement.appendChild(childElement);
+            parentElement.appendChild(deletebutton);
+            parentElement.appendChild(editbutton);
+
+
+        }
+
+
+
+        window.addEventListener("DOMContentLoaded", () => {
+            axios
+                .get("https://crudcrud.com/api/7001f068bd0c4b4db1b59a2d2e85231f/appi")
+                .then((response) => {
+                    for (i = 0; i < response.data.length; i++) {
+                        displayOnScreen(response.data[i]);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                    document.body.innerHTML =
+                        document.body.innerHTML +
+                        "<h1>Error -- Get request cancelled/Api expired</h1>";
+                });
+        });
+    </script>
+</body>
+
+</html>
